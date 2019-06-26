@@ -1,4 +1,3 @@
-fundo = love.graphics.newImage('assets/fundo.png')
 function love.load()
 	img={}
 	for i=1,5 do
@@ -10,8 +9,8 @@ function love.load()
 	actualAnimation = img[num]
 end
 function love.draw()
-	love.graphics.draw(fundo,0,0)
-    love.graphics.draw(actualAnimation)
+    love.graphics.draw(actualAnimation,80,500)
+    love.graphics.setBackgroundColor(255,255,255)
 end
 function love.update(dt)
 	timer = timer + dt
