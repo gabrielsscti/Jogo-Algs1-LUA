@@ -12,9 +12,6 @@ function loadTiles()
     return tiles;
 end
 
-
-    
-
 function love.load()
     player = {
         xPos = 100,
@@ -101,7 +98,6 @@ function love.keypressed(key, unicode)
     if(key=='s' or key=='down') then
         player.direction = directions.DOWN
     end
-
 end
 
 function moveEntity(entity, dt)
@@ -115,7 +111,7 @@ function love.update(dt)
     if(isGamePaused(actGameState)) then
         --CODIGO DE MENU
     else
-        moveEntity(enemy, dt)
+        moveEntity(player, dt)
     end
     
 end
