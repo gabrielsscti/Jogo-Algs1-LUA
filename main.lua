@@ -14,7 +14,7 @@ end
 function love.load()
 --[[
 --menu and mouse
-		play={}
+    play={}
 	quit={}
 	for i=1,2 do
 		play[i]=love.graphics.newImage('assets/play'..i..'.png')
@@ -36,8 +36,8 @@ function love.load()
 	actualAnimation = img[num]
 --]]
     player = {
-        xPos = 100,
-        yPos = 100,
+        xPos = 300,
+        yPos = 300,
         velocity = 100,
         direction = directions.RIGHT
     }
@@ -45,16 +45,14 @@ function love.load()
     actGameState = gameState.PLAYING
     tiles = loadTiles()
     map = {}
-    map_w = 30
-    map_h = 30
-    map_x = 0
-    map_y = 0
-    map_offset_x = 30
-    map_offset_y = 30
-    map_display_w = 30
-    map_display_h = 30
-    tile_w = 16
-    tile_h = 16
+    map_w = 20
+    map_h = 15
+    map_offset_x = 100
+    map_offset_y = 0
+    map_display_w = 20
+    map_display_h = 15
+    tile_w = 32
+    tile_h = 32
     for i=1, map_w do
         map[i] = {}
         for j=1, map_h do
@@ -73,7 +71,7 @@ function draw_map()
     for y=1, (map_display_h) do
        for x=1, (map_display_w) do                                                    
             love.graphics.draw(
-                tiles[map[y+map_y][x+map_x]], 
+                tiles[map[x][y]], 
                 (x*tile_w)+map_offset_x, 
                 (y*tile_h)+map_offset_y )
        end
@@ -81,8 +79,6 @@ function draw_map()
  end
 
 function love.draw()
-<<<<<<< HEAD
-=======
 --[[
 --menu's buttons
 	love.graphics.draw(play[1], 320, 165)
@@ -104,7 +100,6 @@ function love.draw()
         )
     end
 end
-function love.update(dt)
 --[[
 -- menu's dog and bird
 	timer = timer + dt
@@ -123,15 +118,7 @@ function love.update(dt)
 		timer = 0
 	end
 --]]
->>>>>>> 2960cab1e616e923d8c61a3d1d89a46fcd3338dc
-    if(isGamePaused(actGameState)) then
-        --CODIGO DE MENU
-    else
-        moveEntity(player, dt)
-    end
 
-
-end
 
 function toggleGameState()
     if isGamePaused(actGameState) then
@@ -145,37 +132,38 @@ function love.keypressed(key, unicode)
     if(key=='escape') then
         toggleGameState()
     end
-    if(key=='w' or key=='up') then
-        player.direction = directions.UP
-    end
-    if(key=='a' or key=='left') then
-        player.direction = directions.LEFT
-    end
-    if(key=='d' or key=='right') then
-        player.direction = directions.RIGHT
-    end
-    if(key=='s' or key=='down') then
-        player.direction = directions.DOWN
-    end
+    -- if(key=='w' or key=='up') then
+    --     player.direction = directions.UP
+    -- end
+    -- if(key=='a' or key=='left') then
+    --     player.direction = directions.LEFT
+    -- end
+    -- if(key=='d' or key=='right') then
+    --     player.direction = directions.RIGHT
+    -- end
+    -- if(key=='s' or key=='down') then
+    --     player.direction = directions.DOWN
+    -- end
 end
 
 function moveEntity(entity, dt)
-    if(entity.direction == directions.UP) then
-        entity.yPos = entity.yPos - (dt*entity.velocity)
-    end
-    if(entity.direction == directions.DOWN) then
-        entity.yPos = entity.yPos + (dt*entity.velocity)
-    end    
-    if(entity.direction == directions.RIGHT) then
-        entity.xPos = entity.xPos + (dt*entity.velocity)
-    end    
-    if(entity.direction == directions.DOWN) then
-        entity.xPos = entity.xPos - (dt*entity.velocity)
-    end
-<<<<<<< HEAD
-
-
+    -- if(entity.direction == directions.UP) then
+    --     entity.yPos = entity.yPos - (dt*entity.velocity)
+    -- end   
+    -- if(entity.direction == directions.DOWN) then
+    --     entity.yPos = entity.yPos + (dt*entity.velocity)
+    -- end
+    -- if(entity.direction == directions.RIGHT) then
+    --     entity.xPos = entity.xPos + (dt*entity.velocity)
+    -- end    
+    -- if(entity.direction == directions.LEFT) then
+    --     entity.xPos = entity.xPos - (dt*entity.velocity)
+    -- end
 end
-=======
+
+function love.update(dt)
+    if(isGamePaused()) then
+    else
+        moveEntity(player, dt);
+    end
 end
->>>>>>> 2960cab1e616e923d8c61a3d1d89a46fcd3338dc
