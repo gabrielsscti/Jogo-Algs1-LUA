@@ -81,8 +81,6 @@ function draw_map()
  end
 
 function love.draw()
-<<<<<<< HEAD
-=======
 --[[
 --menu's buttons
 	love.graphics.draw(play[1], 320, 165)
@@ -123,7 +121,6 @@ function love.update(dt)
 		timer = 0
 	end
 --]]
->>>>>>> 2960cab1e616e923d8c61a3d1d89a46fcd3338dc
     if(isGamePaused(actGameState)) then
         --CODIGO DE MENU
     else
@@ -172,10 +169,4 @@ function moveEntity(entity, dt)
     if(entity.direction == directions.LEFT) then
         entity.xPos = entity.xPos - (dt*entity.velocity)
     end
-<<<<<<< HEAD
-
-
 end
-=======
-end
->>>>>>> 2960cab1e616e923d8c61a3d1d89a46fcd3338dc
