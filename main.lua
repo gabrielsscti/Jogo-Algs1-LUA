@@ -81,6 +81,17 @@ function draw_map()
  end
 
 function love.draw()
+<<<<<<< HEAD
+=======
+--[[
+--menu's buttons
+	love.graphics.draw(play[1], 320, 165)
+    love.graphics.draw(quit[1], 320,300)
+    love.graphics.setBackgroundColor(255,255,255)
+    love.graphics.draw(rato,love.mouse.getX(),love.mouse.getY())
+    love.graphics.draw(actualAnimation,80,500)
+    love.graphics.setBackgroundColor(255,255,255)
+--]]	
     if(isGamePaused(actGameState)) then
         --CODIGO DO MENU
     else
@@ -92,6 +103,33 @@ function love.draw()
             5
         )
     end
+end
+function love.update(dt)
+--[[
+-- menu's dog and bird
+	timer = timer + dt
+	if timer>=0.07 then
+		if growing==true then
+			num = num+1
+		else
+			num=num-1
+		end
+		if num==5 then
+			growing=false
+		elseif num==1 then
+			growing=true
+		end
+		actualAnimation = img[num]
+		timer = 0
+	end
+--]]
+>>>>>>> 2960cab1e616e923d8c61a3d1d89a46fcd3338dc
+    if(isGamePaused(actGameState)) then
+        --CODIGO DE MENU
+    else
+        moveEntity(player, dt)
+    end
+
 
 end
 
@@ -125,15 +163,19 @@ function moveEntity(entity, dt)
     if(entity.direction == directions.UP) then
         entity.yPos = entity.yPos - (dt*entity.velocity)
     end
-end
-
-
-function love.update(dt)
-    if(isGamePaused(actGameState)) then
-        --CODIGO DE MENU
-    else
-        moveEntity(player, dt)
+    if(entity.direction == directions.DOWN) then
+        entity.yPos = entity.yPos + (dt*entity.velocity)
+    end    
+    if(entity.direction == directions.RIGHT) then
+        entity.xPos = entity.xPos + (dt*entity.velocity)
+    end    
+    if(entity.direction == directions.DOWN) then
+        entity.xPos = entity.xPos - (dt*entity.velocity)
     end
+<<<<<<< HEAD
 
 
 end
+=======
+end
+>>>>>>> 2960cab1e616e923d8c61a3d1d89a46fcd3338dc
