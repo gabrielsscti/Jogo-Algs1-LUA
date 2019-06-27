@@ -166,7 +166,7 @@ function moveEntity(entity, dt)
     if(entity.direction == directions.RIGHT) then
         entity.xPos = entity.xPos + (dt*entity.velocity)
     end    
-    if(entity.direction == directions.DOWN) then
+    if(entity.direction == directions.LEFT) then
         entity.xPos = entity.xPos - (dt*entity.velocity)
     end
 end
