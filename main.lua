@@ -11,10 +11,6 @@ function loadTiles()
 
     return tiles;
 end
-<<<<<<< HEAD
-
-=======
->>>>>>> fb9126bc03761f89898951a0f189a14a6f646ec7
 function love.load()
 --[[
 --menu and mouse
@@ -63,7 +59,7 @@ function love.load()
         map[i] = {}
         for j=1, map_h do
             if(love.math.random()<0.7) then
-                map[i][j] = love.math.random(3);
+                map[i][j] = love.math.random(3)
             else
                 map[i][j] = love.math.random( 4, 7 );
             end
@@ -85,41 +81,6 @@ function draw_map()
  end
 
 function love.draw()
---[[
---menu's buttons
-	love.graphics.draw(play[1], 320, 165)
-    love.graphics.draw(quit[1], 320,300)
-    love.graphics.setBackgroundColor(255,255,255)
-    love.graphics.draw(rato,love.mouse.getX(),love.mouse.getY())
-    love.graphics.draw(actualAnimation,80,500)
-    love.graphics.setBackgroundColor(255,255,255)
---]]	
-	love.graphics.draw(play[1], 320, 165)
-    love.graphics.draw(quit[1], 320,300)
-    love.graphics.setBackgroundColor(255,255,255)
-    love.graphics.draw(rato,love.mouse.getX(),love.mouse.getY())
-    love.graphics.draw(actualAnimation,80,500)
-    love.graphics.setBackgroundColor(255,255,255)
-end
-function love.update(dt)
---[[
--- menu's dog and bird
-	timer = timer + dt
-	if timer>=0.07 then
-		if growing==true then
-			num = num+1
-		else
-			num=num-1
-		end
-		if num==5 then
-			growing=false
-		elseif num==1 then
-			growing=true
-		end
-		actualAnimation = img[num]
-		timer = 0
-	end
---]]
     if(isGamePaused(actGameState)) then
         --CODIGO DO MENU
     else
@@ -173,6 +134,6 @@ function love.update(dt)
     else
         moveEntity(player, dt)
     end
-    
+
 
 end
