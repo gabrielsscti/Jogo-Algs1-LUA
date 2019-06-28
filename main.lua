@@ -1,7 +1,8 @@
 require("src.constants")
+require("src.entities")
 
 function changePreviosDirection(entity)
-    entity.previousDirection = player.direction
+    entity.previousDirection = entity.direction
     
 end
 
@@ -16,6 +17,15 @@ function loadTiles()
 
     return tiles;
 end
+
+function loadEnemies(enemyNumbers, offsetX, offsetY)
+    local enemy = {}
+    for i=1, enemyNumbers do
+        enemy[i] = generateEnemy(offsetX + (i*70), 60+offsetY)
+    end
+    return enemy;
+end
+
 function love.load()
 --[[
 --menu and mouse
@@ -40,31 +50,28 @@ function love.load()
 	growing=true
 	actualAnimation = img[num]
 --]]
-    player = {
-        xPos = 300,
-        yPos = 300,
-        velocity = 100,
-        width = 24,
-        height = 24,
-        direction = directions.RIGHT,
-        previousDirection = directions.DOWN,
-        
-    }
+    
 
     collidableTile = {}
     directionOposite = false
+    
 
     actGameState = gameState.PLAYING
     tiles = loadTiles()
     map = {}
     map_w = 20
     map_h = 15
-    map_offset_x = 100
+    map_offset_x = 0
     map_offset_y = 0
     map_display_w = 20
     map_display_h = 15
     tile_w = 32
     tile_h = 32
+    enemies = loadEnemies(5, map_offset_x, 0)
+    arenaWidth = map_display_w*tile_w
+    arenaHeight = map_display_h*tile_h
+
+    
     loadMap()
 end
 
@@ -99,13 +106,13 @@ function loadMap()
     for i=1, map_w do
         map[i] = {}
         for j=1, map_h do
-            if(love.math.random()<0.7) then
+            if(love.math.random()<0.7 and i~=1 and j~=1 and i~=map_w and j~=map_h) then
                 map[i][j] = love.math.random(3)
             else
                 map[i][j] = love.math.random( 4, 7 );
                 table.insert(collidableTile, {
-                    xPos = i*tile_w+map_offset_x,
-                    yPos = j*tile_h+map_offset_y,
+                    xPos = (i-1)*tile_w+map_offset_x,
+                    yPos = (j-1)*tile_h+map_offset_y,
                     width = tile_w,
                     height = tile_h
                 })
@@ -119,8 +126,8 @@ function draw_map()
        for x=1, (map_display_w) do                                                    
             love.graphics.draw(
                 tiles[map[x][y]], 
-                (x*tile_w)+map_offset_x, 
-                (y*tile_h)+map_offset_y )
+                ((x-1)*tile_w)+map_offset_x, 
+                ((y-1)*tile_h)+map_offset_y )
        end
     end
 end
@@ -138,16 +145,30 @@ function love.draw()
     if(isGamePaused(actGameState)) then
         --CODIGO DO MENU
     else
-        draw_map();
-        love.graphics.circle(
-            'fill',
-            player.xPos,
-            player.yPos,
-            player.width/2
-        )
-        love.graphics.print(tostring(isDirectionOposite(player.direction, player.previousDirection)))
-        
-        
+        for y=-1, 1 do
+            for x=-1, 1 do
+                love.graphics.origin()
+                love.graphics.translate(x*arenaWidth, y*arenaHeight)
+                love.graphics.reset()
+                draw_map();
+                love.graphics.setColor({255, 255, 255})
+                love.graphics.circle(
+                    'fill',
+                    player.xPos,
+                    player.yPos,
+                    player.width/2
+                )
+                for i=1, #enemies do
+                    love.graphics.setColor(enemies[i].color[1], enemies[i].color[2], enemies[i].color[3])
+                    love.graphics.circle(
+                        'fill',
+                        enemies[i].xPos,
+                        enemies[i].yPos,
+                        enemies[i].width/2
+                    )
+                end
+            end
+        end     
     end
 end
 --[[
@@ -208,9 +229,9 @@ function love.keypressed(key, unicode)
     end
 end
 
-function checkPlayerCollision()
+function checkEntityCollision(entity)
     for i=1, #collidableTile do
-        temp = checkCollision(player, collidableTile[i])
+        temp = checkCollision(entity, collidableTile[i])
         if(temp) then
             return true
         end
@@ -227,58 +248,77 @@ function moveEntityPrevious(entity, dt)
     if(not isDirectionOposite(entity.direction, entity.previousDirection)) then
         if(entity.previousDirection == directions.UP) then
             entity.yPos = entity.yPos - (dt*entity.velocity)
-            if checkPlayerCollision() then
+            if checkEntityCollision(entity) then
                 entity.yPos = entity.yPos + (dt*entity.velocity)
+                
             end
+            
         end   
         if(entity.previousDirection == directions.DOWN) then
             entity.yPos = entity.yPos + (dt*entity.velocity)
-            if checkPlayerCollision() then
+            if checkEntityCollision(entity) then
                 entity.yPos = entity.yPos - (dt*entity.velocity)
+                
             end
         end
         if(entity.previousDirection == directions.RIGHT) then
             entity.xPos = entity.xPos + (dt*entity.velocity)
-            if checkPlayerCollision() then
+            if checkEntityCollision(entity) then
                 entity.xPos = entity.xPos - (dt*entity.velocity)
+                
             end
         end    
         if(entity.previousDirection == directions.LEFT) then
             entity.xPos = entity.xPos - (dt*entity.velocity)
-            if checkPlayerCollision() then
+            if checkEntityCollision(entity) then
                 entity.xPos = entity.xPos + (dt*entity.velocity)
+                
             end
         end
     end
+    if isEnemy(entity) then
+        entity.direction = love.math.random(1, 4)
+    end
+end
+
+function keepEntityInMap(entity, mapX, mapY, mapW, mapH)
+    entity.xPos = (entity.xPos)%(mapW+mapX)
+    entity.yPos = (entity.yPos)%(mapY+mapH)
 end
 
 function moveEntity(entity, dt)
     if(entity.direction == directions.UP) then
         entity.yPos = entity.yPos - (dt*entity.velocity)
-        if checkPlayerCollision() then
+        if checkEntityCollision(entity) then
             entity.yPos = entity.yPos + (dt*entity.velocity)
             moveEntityPrevious(entity, dt)
         end
     end   
     if(entity.direction == directions.DOWN) then
         entity.yPos = entity.yPos + (dt*entity.velocity)
-        if checkPlayerCollision() then
+        if checkEntityCollision(entity) then
             entity.yPos = entity.yPos - (dt*entity.velocity)
             moveEntityPrevious(entity, dt)
         end
     end
     if(entity.direction == directions.RIGHT) then
         entity.xPos = entity.xPos + (dt*entity.velocity)
-        if checkPlayerCollision() then
+        if checkEntityCollision(entity) then
             entity.xPos = entity.xPos - (dt*entity.velocity)
             moveEntityPrevious(entity, dt)
         end
     end    
     if(entity.direction == directions.LEFT) then
         entity.xPos = entity.xPos - (dt*entity.velocity)
-        if checkPlayerCollision() then
+        if checkEntityCollision(entity) then
             entity.xPos = entity.xPos + (dt*entity.velocity)
             moveEntityPrevious(entity, dt)
+        end
+    end
+    if isEnemy(entity) then
+        randomMovement = love.math.random()
+        if(randomMovement <0.01) then
+            entity.direction = love.math.random(1, 4)
         end
     end
 end
@@ -287,6 +327,11 @@ function love.update(dt)
     if(isGamePaused()) then
     else
         moveEntity(player, dt);
+        keepEntityInMap(player, map_offset_x, map_offset_y, arenaWidth, arenaHeight)
+        for i=1, #enemies do
+            moveEntity(enemies[i], dt)
+            keepEntityInMap(enemies[i], map_offset_x, map_offset_y, arenaWidth, arenaHeight)
+        end
         directionOposite = tostring(isDirectionOposite(player.direction, player.previousDirection))
     end
 end

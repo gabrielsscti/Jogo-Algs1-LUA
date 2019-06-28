@@ -10,6 +10,12 @@ directions = {
     LEFT = 4
 }
 
+enemyDifficulties = {
+    HARD = 3,
+    MEDIUM = 2,
+    EASY = 1
+}
+
 function isGamePaused(actGameState)
     if(actGameState==gameState.MENU)then
         return true
