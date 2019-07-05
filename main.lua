@@ -1,12 +1,12 @@
 require("src.constants")
 require("src.entities")
 
-function changePreviosDirection(entity)
+function changePreviosDirection(entity) --FUNÇÃO PARA ATRIBUIR A DIREÇÃO ATUAL À DIREÇÃO ANTIGA DE UMA ENTIDADE
     entity.previousDirection = entity.direction
     
 end
 
-function loadTiles()
+function loadTiles() --FUNÇÃO PARA PEGAR OS ARQUIVOS DE FUNDO DO MAPA E RETORNAR-LOS COMO ARRAY
     local tiles = {}
     for i=1, 3 do
         table.insert(tiles, love.graphics.newImage('assets/background'..i..'.png'))
@@ -27,8 +27,6 @@ function loadEnemies(enemyNumbers, offsetX, offsetY)
 end
 
 function love.load()
---[[
---menu and mouse
     play={}
 	quit={}
 	for i=1,2 do
@@ -49,7 +47,6 @@ function love.load()
 	num = 1
 	growing=true
 	actualAnimation = img[num]
---]]
     
 
     collidableTile = {}
@@ -133,17 +130,14 @@ function draw_map()
 end
 
 function love.draw()
---[[
---menu's buttons
-	love.graphics.draw(play[1], 320, 165)
-    love.graphics.draw(quit[1], 320,300)
-    love.graphics.setBackgroundColor(255,255,255)
-    love.graphics.draw(rato,love.mouse.getX(),love.mouse.getY())
-    love.graphics.draw(actualAnimation,80,500)
-    love.graphics.setBackgroundColor(255,255,255)
---]]	
     if(isGamePaused(actGameState)) then
-        --CODIGO DO MENU
+        love.graphics.reset()
+        love.graphics.draw(play[1], 320, 165)
+        love.graphics.draw(quit[1], 320,300)
+        love.graphics.setBackgroundColor(255,255,255)
+        love.graphics.draw(rato,love.mouse.getX(),love.mouse.getY())
+        love.graphics.draw(actualAnimation,80,500)
+        love.graphics.setBackgroundColor(255,255,255)
     else
         for y=-1, 1 do
             for x=-1, 1 do
@@ -171,24 +165,6 @@ function love.draw()
         end     
     end
 end
---[[
--- menu's dog and bird
-	timer = timer + dt
-	if timer>=0.07 then
-		if growing==true then
-			num = num+1
-		else
-			num=num-1
-		end
-		if num==5 then
-			growing=false
-		elseif num==1 then
-			growing=true
-		end
-		actualAnimation = img[num]
-		timer = 0
-	end
---]]
 
 
 function toggleGameState()
@@ -324,7 +300,22 @@ function moveEntity(entity, dt)
 end
 
 function love.update(dt)
-    if(isGamePaused()) then
+    if(isGamePaused(actGameState)) then
+        timer = timer + dt
+        if timer>=0.07 then
+            if growing==true then
+                num = num+1
+            else
+                num=num-1
+            end
+            if num==5 then
+                growing=false
+            elseif num==1 then
+                growing=true
+            end
+            actualAnimation = img[num]
+            timer = 0
+        end
     else
         moveEntity(player, dt);
         keepEntityInMap(player, map_offset_x, map_offset_y, arenaWidth, arenaHeight)
