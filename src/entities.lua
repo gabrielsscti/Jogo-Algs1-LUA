@@ -3,22 +3,23 @@ require("src.constants")
 player = {
     xPos = 300,
     yPos = 300,
-    velocity = 200,
+    velocity = 100,
     width = 24,
     height = 24,
     direction = directions.RIGHT,
     previousDirection = directions.DOWN, 
 }
 
+
 function isEnemy(entity)
-    if entity.difficulty ~= nil then
-        return true
+    if entity.difficulty == nil then
+        return false
     end
-    return false
+    return true
 end
 
 function generateEnemy(xPos, yPos)
-    enemySeed = love.math.random(1, 10)
+    enemySeed = love.math.random(0, 10)
     enemy = {
         xPos = xPos,
         yPos = yPos,
@@ -27,7 +28,8 @@ function generateEnemy(xPos, yPos)
         width = 24,
         height = 24,
         direction = directions.RIGHT,
-        previousDirection = directions.DOWN
+        previousDirection = directions.DOWN,
+        difficulty = enemyDifficulties.EASY
     }
     if(enemySeed<=6) then
         enemy.velocity = 180

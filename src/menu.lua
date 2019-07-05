@@ -11,17 +11,6 @@ function menuloadbuttons()
 		quiti = love.graphics.newImage('assets/quit1.png'),
 		pressed = love.graphics.newImage('assets/quit2.png')
 	}
-	
---  ddx={}
-
---[[	for i=1,5 do
-		ddx[i]=love.graphics.newImage('assets/didudxs_paradas'..i..'.png')
-	end 
-		timer = 0
-	num = 1
-	growing=true
-	actualAnimation = ddx[num]
---]]
 	love.mouse.setVisible(false)
 end
 function drawcorfundo()

@@ -17,10 +17,6 @@ enemyDifficulties = {
 }
 
 function isGamePaused(actGameState)
-    if(actGameState==gameState.MENU)then
-        return true
-    else
-        return false
-    end
+    return actGameState==gameState.MENU
 end
 
