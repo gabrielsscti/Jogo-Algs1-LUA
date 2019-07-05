@@ -1,16 +1,17 @@
 function menuloadbuttons()
 	love.graphics.reset()
-	play ={
-	playi = love.graphics.newImage('assets/play1.png'),
-	pressed = love.graphics.newImage('assets/play2.png')
-}
-	quit = {
-	quiti = love.graphics.newImage('assets/quit1.png'),
-	pressed = love.graphics.newImage('assets/quit2.png')
-}
 	rato = love.graphics.newImage('assets/rato.png')
 	altura = 105
 	largura = 180
+	play = {
+		playi = love.graphics.newImage('assets/play1.png'),
+		pressed = love.graphics.newImage('assets/play2.png')
+	}
+	quit = {
+		quiti = love.graphics.newImage('assets/quit1.png'),
+		pressed = love.graphics.newImage('assets/quit2.png')
+	}
+	
 --  ddx={}
 
 --[[	for i=1,5 do
@@ -32,7 +33,7 @@ function drawbuttonsmenuplay()
 	love.graphics.draw(play.playi,320,160)
 end
 function drawbuttonsmenuquit()
-		love.graphics.draw(quit.quiti,320,280)
+	love.graphics.draw(quit.quiti,320,280)
 end
 function drawup()
 	local x,y=love.mouse.getPosition()

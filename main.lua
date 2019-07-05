@@ -33,7 +33,7 @@ function love.load()
     directionOposite = false
     
 
-    actGameState = gameState.PLAYING
+    actGameState = gameState.MENU
     tiles = loadTiles()
     map = {}
     map_w = 20
@@ -112,10 +112,12 @@ end
 function love.draw()
 	love.graphics.reset()
     if(isGamePaused(actGameState)) then
-		drawcorfundo()
-		drawbuttonsmenuplay()
+        
+        drawbuttonsmenuplay()
 		drawbuttonsmenuquit()
-		drawup()
+		
+        drawup()
+        drawcorfundo()
     else
         for y=-1, 1 do
             for x=-1, 1 do
