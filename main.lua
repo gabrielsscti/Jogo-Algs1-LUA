@@ -119,8 +119,282 @@ function loadMap()
     for i = 1, map_w do
         map[i] = {}
         for j = 1, map_h do
-            if (love.math.random() < 0.7 and i ~= 1 and j ~= 1 and i ~= map_w and j ~= map_h) then
-                map[i][j] = love.math.random(3)
+            if (i ~= 1 and j ~= 1 and i ~= map_w and j ~= map_h) then
+               if i==2 then
+                    if j==6 or j==9 then
+                        map[i][j]=love.math.random(4,7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==3 then
+                    if j==3 or j==2 or j>=5 and j<=7 or j==9 or j==13 then
+                        map[i][j]=love.math.random(4,7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==4 then
+                    if j==3 or j==7 or j==9 or j==13 then
+                        map[i][j]=love.math.random(4,7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==5 then
+                    if j==7 or j==13 then
+                        map[i][j]=love.math.random(4,7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==6 then
+                    if j==7 or j>=11 and j<=13 then
+                        map[i][j]=love.math.random(4,7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==7 then
+                    if j==3 or j==4 or j==6 or j==7 or j==4 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==8 then
+                    if j==7 or j>=11 and j<=13 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==9 then
+                    if j>=2 and j<=5 or j==7 or j==13 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==10 then
+                    if j>=7 and j<=9 or j>=13 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==11 then
+                    if j<=4 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==12 then
+                    if j>=4 and j<=13 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==13 then
+                    if j==9 or j==13 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==14 then
+                    if j==4 or j>=9 and j<=11 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==15 then
+                    if j==7 or j==11 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==16 then
+                    if j>=3 and j<=5 or j==7 or j==9 or j==11 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==17 then
+                    if j==9 or j==11 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==18 then
+                    if j==3 or j==4 or j==9 or j>=11 and j<=13 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                elseif i==19 then
+                    if j==5 then
+                        map[i][j] = love.math.random(4, 7)
+                        table.insert(
+                            collidableTile,
+                            {
+                                xPos = (i - 1) * tile_w + map_offset_x,
+                                yPos = (j - 1) * tile_h + map_offset_y,
+                                width = tile_w,
+                                height = tile_h
+                            }
+                        )
+                    else
+                        map[i][j]=love.math.random(3)
+                    end
+                else
+                    map[i][j] = love.math.random(3)
+                end
+
             else
                 map[i][j] = love.math.random(4, 7)
                 table.insert(
@@ -134,6 +408,12 @@ function loadMap()
                 )
             end
         end
+    end
+    for i=1,#map do
+        for j=1,#map[i] do
+            io.write(map[i][j]..' ')
+        end
+        print()
     end
 end
 
