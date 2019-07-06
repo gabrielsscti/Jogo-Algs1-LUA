@@ -57,8 +57,12 @@ function love.update(dt)
         moveEntity(player, dt)
         for i = 1, #enemies do
             moveEntity(enemies[i], dt)
+            if isEntitiesColliding(player,enemies[i]) then
+                love.load()
+            end
         end
     end
+
 end
 
 function changePreviosDirection(entity) --FUNÇÃO PARA ATRIBUIR A DIREÇÃO ATUAL À DIREÇÃO ANTIGA DE UMA ENTIDADE
@@ -268,5 +272,16 @@ function moveEntity(entity, dt)
         if (randomMovement < 0.01) then
             entity.direction = love.math.random(1, 4)
         end
+    end
+end
+function isEntitiesColliding(entity1,entity2)
+    local x1,y1 = entity1.xPos,entity1.yPos
+    local x2,y2 = entity2.xPos,entity2.yPos
+    local raid1,raid2 = ((entity1.width)/2),((entity2.width)/2)
+    local distance = math.sqrt(((x2-x1)^2)+((y2-y1)^2))
+    if distance<=raid1+raid2 then
+        return true
+    else
+        return false
     end
 end
