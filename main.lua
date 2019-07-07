@@ -91,11 +91,9 @@ function love.update(dt)
                 actGameState=gameState.GAMEOVER
                 player.xPos = 50
                 player.yPos = 50
-                player.velocity = 1
                 for i=1,#enemies do
                     enemies[i].xPos=448
                     enemies[i].yPos=160
-                    enemies[i].velocity=0
                 end
             end
         end
