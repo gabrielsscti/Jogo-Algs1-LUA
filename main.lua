@@ -5,6 +5,11 @@ require("src.map")
 
 function love.load()
     menuloadbuttons()
+--    loadMenuSE()
+    musicmenu=love.audio.newSource('music/musicMenu.mp3','stream')
+    musicplaying=love.audio.newSource('music/musicPlaying.mp3','stream')
+    musicgameover=love.audio.newSource('music/musicGameOver.mp3','stream')
+    musicvictory=love.audio.newSource('music/musicVictory.mp3','stream')
     gameover = 0
     gameover = loadGameOver()
     victory = 0
@@ -39,15 +44,21 @@ end
 function love.draw()
     love.graphics.reset()
     if (isGamePaused(actGameState)) then
+        musicgameover:pause()
+        musicvictory:pause()
+        musicmenu:play()
+        musicmenu:setLooping(true)
         drawbuttonsmenuplay()
         drawbuttonsmenuquit()
-
         drawup()
         drawcorfundo()
     elseif actGameState==gameState.PLAYING then
         love.graphics.reset()
+        musicmenu:pause()
+        musicplaying:play()
+        musicplaying:setLooping(true)
         draw_map()
---        love.graphics.setColor({255, 255, 255})
+        love.graphics.setColor({255, 255, 255})
         love.graphics.draw(playerim, player.xPos-12, player.yPos-12)
 --        love.graphics.circle("line", player.xPos, player.yPos, player.width / 2)
         love.graphics.draw(candy,580,45)
@@ -58,7 +69,13 @@ function love.draw()
         end
     elseif actGameState==gameState.GAMEOVER then
         love.graphics.draw(gameover,0,0)
+        musicplaying:pause()
+        musicgameover:play()
+        musicgameover:setLooping(true)
     elseif actGameState==gameState.VICTORY then
+        musicplaying:pause()
+        musicvictory:play()
+        musicvictory:setLooping(true)
         love.graphics.draw(victory,0,0)
     end
 
@@ -74,7 +91,10 @@ function love.update(dt)
                 actGameState=gameState.GAMEOVER
                 player.xPos = 50
                 player.yPos = 50
-
+                for i=1,#enemies do
+                    enemies[i].xPos=448
+                    enemies[i].yPos=160
+                end
             end
         end
         if isEntitiesColliding(candyi,player) then

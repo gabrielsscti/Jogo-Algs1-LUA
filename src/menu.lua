@@ -1,3 +1,4 @@
+
 function menuloadbuttons()
 	love.graphics.reset()
 	rato = love.graphics.newImage('assets/rato.png')
@@ -66,4 +67,7 @@ end
 function loadVictory()
 	victory=love.graphics.newImage('assets/victory.png')
 	return victory
+end
+function loadMenuSE()
+	menuMusic = love.audio.newSource("music/musicMenu.mp3","stream")
 end
