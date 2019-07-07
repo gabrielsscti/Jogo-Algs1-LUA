@@ -39,6 +39,7 @@ function love.load()
         end
         print()
     end
+    timer = 0
 end
 
 function love.draw()
@@ -83,6 +84,13 @@ end
 
 function love.update(dt)
     if actGameState==gameState.MENU then
+
+    elseif isEntitiesColliding(candyi,player) then
+        actGameState=gameState.VICTORY
+        player.velocity=0
+        for i=1,#enemies do
+            enemies[i].velocity=0
+        end
     else
         moveEntity(player, dt)
         for i = 1, #enemies do
@@ -97,15 +105,7 @@ function love.update(dt)
                 end
             end
         end
-        if isEntitiesColliding(candyi,player) then
-            actGameState=gameState.VICTORY
-            player.velocity=0
-            for i=1,#enemies do
-                enemies[i].velocity=0
-            end
-        end
     end
-
 end
 
 function changePreviosDirection(entity) --FUNÇÃO PARA ATRIBUIR A DIREÇÃO ATUAL À DIREÇÃO ANTIGA DE UMA ENTIDADE
@@ -167,8 +167,11 @@ function love.mousepressed(x, y, button, istouch)
     end
 end
 function love.keypressed(key, unicode)
-    if (key == "escape") then
+    if (key == "escape" and actGameState~=gameState.VICTORY) then
         toggleGameState()
+    end
+    if key=='escape' and actGameState==gameState.VICTORY then
+        love.event.quit('restart')
     end
     if (key == "w" or key == "up") then
         if player.direction ~= directions.UP then

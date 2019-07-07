@@ -38,15 +38,15 @@ function generateEnemy(xPos, yPos)
         difficulty = enemyDifficulties.EASY
     }
     if(enemySeed<=6) then
-        enemy.velocity = 169
+        enemy.velocity = 160
         enemy.color = love.graphics.newImage('assets/enemy1.png')
         enemy.difficulty = enemyDifficulties.EASY
     elseif(enemySeed<=9) then
-        enemy.velocity = 180
+        enemy.velocity = 175
         enemy.color = love.graphics.newImage('assets/enemy2.png')
         enemy.difficulty = enemyDifficulties.MEDIUM
     else
-        enemy.velocity = 200
+        enemy.velocity = 195
         enemy.color = love.graphics.newImage('assets/enemy3.png')
         enemy.difficulty = enemyDifficulties.HARD
     end
