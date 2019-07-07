@@ -4,12 +4,6 @@ gameState = {
     GAMEOVER = 3,
     VICTORY = 4
 }
-music ={
-    menu=1,
-    playin=2,
-    gameover=3,
-    victory=4
-}
 directions = {
     UP = 1,
     DOWN = 2,
