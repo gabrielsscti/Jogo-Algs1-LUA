@@ -68,6 +68,9 @@ function loadVictory()
 	victory=love.graphics.newImage('assets/victory.png')
 	return victory
 end
-function loadMenuSE()
-	menuMusic = love.audio.newSource("music/musicMenu.mp3","stream")
+function loadMusics()
+	musicmenu=love.audio.newSource('music/musicMenu.mp3','stream')
+    musicplaying=love.audio.newSource('music/musicPlaying.mp3','stream')
+    musicgameover=love.audio.newSource('music/musicGameOver.mp3','stream')
+    musicvictory=love.audio.newSource('music/musicVictory.mp3','stream')
 end

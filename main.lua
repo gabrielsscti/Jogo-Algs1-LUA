@@ -4,62 +4,57 @@ require("src.menu")
 require("src.map")
 
 function love.load()
-    menuloadbuttons()
---    loadMenuSE()
-    musicmenu=love.audio.newSource('music/musicMenu.mp3','stream')
-    musicplaying=love.audio.newSource('music/musicPlaying.mp3','stream')
-    musicgameover=love.audio.newSource('music/musicGameOver.mp3','stream')
-    musicvictory=love.audio.newSource('music/musicVictory.mp3','stream')
+    menuloadbuttons() --carrega as imagens dos botões do menu
+    loadMusics()    --carregaos arquivos de áudio do jogo
     gameover = 0
-    gameover = loadGameOver()
+    gameover = loadGameOver() -- carrega a tela de game over em caso de colisão de player com enemy
     victory = 0
-    victory = loadVictory()
+    victory = loadVictory() -- carrega a tela de vitória em caso de colisão do player com o objetivo(candy)
     collidableTile = {}
-    candy=love.graphics.newImage('assets/candy.png')
-    playerim=love.graphics.newImage('assets/playerim.png')
-    actGameState = gameState.MENU
+    candy=love.graphics.newImage('assets/candy.png') -- carrega a imagem do "candy", objetivo do jogo
+    playerim=love.graphics.newImage('assets/playerim.png') -- carrega a imagem do player
+    actGameState = gameState.MENU -- estado atual do jogo, inicialmente MENU
     tiles = {}
-    tiles = loadTiles()
-    map = {}
-    map_w = 20
-    map_h = 15
-    map_offset_x = 0
-    map_offset_y = 0
-    map_display_w = 20
-    map_display_h = 15
-    tile_w = 32
-    tile_h = 32
-    enemies = loadEnemies(5, map_offset_x, 0)
-    arenaWidth = map_display_w * tile_w
-    arenaHeight = map_display_h * tile_h
-    loadMap()
-    for i=1, #map do
-        for j=1, #map[i] do
+    tiles = loadTiles() -- carrega as imagens das paredes e do chão 
+    map = {} -- vetor gerado para matriz do mapa
+    map_w = 20 -- quantidade de blocos na largura do mapa
+    map_h = 15 -- quantidade de blocos na altura do mapa 
+    map_offset_x = 0 --coordenada X de onde o mapa inicia
+    map_offset_y = 0 -- coordenada Y de onde o mapa inicia
+    map_display_w = 20 -- tamanho da tela do mapa, em blocos, largura
+    map_display_h = 15 -- tamanho da tela do mapa, em blocos, altura
+    tile_w = 32 --tamanho dos blocos em pixel
+    tile_h = 32 --tamanho dos blocos em pixel
+    enemies = loadEnemies(5, map_offset_x, 0) -- carrega as imagens dos inimigos de acordo com a quantidade e posição
+    arenaWidth = map_display_w * tile_w -- tamanho do mapa em pixels, largura
+    arenaHeight = map_display_h * tile_h -- tamanho do mapa em pixels, altura
+    loadMap() -- carrega o mapa com elementos colisivos (checar o arquivo "map.lua")
+    for i=1, #map do -- mostra na tela o mapa como uma matriz 
+            for j=1, #map[i] do
             io.write(map[i][j] .. " ")
         end
         print()
-    end
-    timer = 0
+    end              ---(para checar de fato: abrir arquivo "conf.lua", mudar a variavel t.console para "true")
 end
 
 function love.draw()
     love.graphics.reset()
-    if (isGamePaused(actGameState)) then
-        musicgameover:stop()
-        musicvictory:stop()
-        musicmenu:play()
-        musicmenu:setLooping(true)
-        drawbuttonsmenuplay()
+    if (isGamePaused(actGameState)) then -- checa se o jogo está em tela de menu (verificar arquivo "constants.lua")
+        musicgameover:stop() -- para a musica da tela de fim de jogo
+        musicvictory:stop() -- para a musica da tela de conclusão do jogo
+        musicmenu:play() -- começa a tocar a musica da tela de menu
+        musicmenu:setLooping(true) -- faz com que a musica da tela de menu se repita assim que acabar
+        drawbuttonsmenuplay() -- desenha na tela as fotos dos botões do menu (checar o arquivo "menu.lua")
         drawbuttonsmenuquit()
-        drawup()
-        drawcorfundo()
-    elseif actGameState==gameState.PLAYING then
-        love.graphics.reset()
-        musicmenu:stop()
-        musicplaying:play()
-        musicplaying:setLooping(true)
-        draw_map()
-        love.graphics.setColor({255, 255, 255})
+        drawup() -- desenha os botoes com cor diferente em caso do cursor do mouse estiver em cima do botao ("menu.lua")
+        drawcorfundo() -- desenha a nova imagem do cursor do mouse e seta a cor branca para tela de fundo ("menu.lua")
+    elseif actGameState==gameState.PLAYING then -- checa se o usuario clicou em jogar e está de fato na tela de jogo
+        love.graphics.reset() -- reseta as cores setadas anteriormente para que não haja mistura nas cores
+        musicmenu:stop() -- para a musica de menu 
+        musicplaying:play() -- começa a tocar a musica da tela de jogo
+        musicplaying:setLooping(true) -- faz com que a musica da tela de jogo se repita assim que acabar
+        draw_map() -- desenha o mapa com todos os seus elementos colisivos e não-colisivos em posições pré-definidas ("map.lua")
+--        love.graphics.setColor({255, 255, 255})
         love.graphics.draw(playerim, player.xPos-12, player.yPos-12)
 --        love.graphics.circle("line", player.xPos, player.yPos, player.width / 2)
         love.graphics.draw(candy,580,45)
