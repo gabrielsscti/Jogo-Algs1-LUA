@@ -1,15 +1,21 @@
 require("src.constants")
 
 player = {
-    xPos = 300,
-    yPos = 300,
+    position={},
+    xPos = 50,
+    yPos = 50,
     velocity = 100,
     width = 24,
     height = 24,
     direction = directions.RIGHT,
-    previousDirection = directions.DOWN, 
+    previousDirection = directions.DOWN
 }
-
+candyi={
+    xPos=580,
+    yPos=48,
+    width = 24,
+    height = 24,
+}
 
 function isEnemy(entity)
     if entity.difficulty == nil then
@@ -32,16 +38,16 @@ function generateEnemy(xPos, yPos)
         difficulty = enemyDifficulties.EASY
     }
     if(enemySeed<=6) then
-        enemy.velocity = 180
-        enemy.color = {0.15, 0.15, 0.7, 1}
+        enemy.velocity = 169
+        enemy.color = love.graphics.newImage('assets/enemy1.png')
         enemy.difficulty = enemyDifficulties.EASY
     elseif(enemySeed<=9) then
-        enemy.velocity = 195
-        enemy.color = {0.5, 0.1, 0.4, 1}
+        enemy.velocity = 180
+        enemy.color = love.graphics.newImage('assets/enemy2.png')
         enemy.difficulty = enemyDifficulties.MEDIUM
     else
-        enemy.velocity = 205
-        enemy.color = {0.8, 0.1, 0.1, 1}
+        enemy.velocity = 200
+        enemy.color = love.graphics.newImage('assets/enemy3.png')
         enemy.difficulty = enemyDifficulties.HARD
     end
     return enemy

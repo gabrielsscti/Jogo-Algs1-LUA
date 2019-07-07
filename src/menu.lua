@@ -59,3 +59,11 @@ function getMouseAction(button)
 	end
 	return false
 end
+function loadGameOver()
+	gameover=love.graphics.newImage('assets/gameover.png')
+	return gameover
+end
+function loadVictory()
+	victory=love.graphics.newImage('assets/victory.png')
+	return victory
+end

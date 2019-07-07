@@ -1,6 +1,8 @@
 gameState = {
     MENU = 1,
-    PLAYING = 2
+    PLAYING = 2,
+    GAMEOVER = 3,
+    VICTORY = 4
 }
 
 directions = {
@@ -19,4 +21,3 @@ enemyDifficulties = {
 function isGamePaused(actGameState)
     return actGameState==gameState.MENU
 end
-
