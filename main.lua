@@ -44,8 +44,8 @@ end
 function love.draw()
     love.graphics.reset()
     if (isGamePaused(actGameState)) then
-        musicgameover:pause()
-        musicvictory:pause()
+        musicgameover:stop()
+        musicvictory:stop()
         musicmenu:play()
         musicmenu:setLooping(true)
         drawbuttonsmenuplay()
@@ -54,7 +54,7 @@ function love.draw()
         drawcorfundo()
     elseif actGameState==gameState.PLAYING then
         love.graphics.reset()
-        musicmenu:pause()
+        musicmenu:stop()
         musicplaying:play()
         musicplaying:setLooping(true)
         draw_map()
@@ -69,11 +69,11 @@ function love.draw()
         end
     elseif actGameState==gameState.GAMEOVER then
         love.graphics.draw(gameover,0,0)
-        musicplaying:pause()
+        musicplaying:stop()
         musicgameover:play()
         musicgameover:setLooping(true)
     elseif actGameState==gameState.VICTORY then
-        musicplaying:pause()
+        musicplaying:stop()
         musicvictory:play()
         musicvictory:setLooping(true)
         love.graphics.draw(victory,0,0)
@@ -99,6 +99,10 @@ function love.update(dt)
         end
         if isEntitiesColliding(candyi,player) then
             actGameState=gameState.VICTORY
+            player.velocity=0
+            for i=1,#enemies do
+                enemies[i].velocity=0
+            end
         end
     end
 
