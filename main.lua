@@ -54,48 +54,43 @@ function love.draw()
         musicplaying:play() -- começa a tocar a musica da tela de jogo
         musicplaying:setLooping(true) -- faz com que a musica da tela de jogo se repita assim que acabar
         draw_map() -- desenha o mapa com todos os seus elementos colisivos e não-colisivos em posições pré-definidas ("map.lua")
---        love.graphics.setColor({255, 255, 255})
-        love.graphics.draw(playerim, player.xPos-12, player.yPos-12)
---        love.graphics.circle("line", player.xPos, player.yPos, player.width / 2)
-        love.graphics.draw(candy,580,45)
+        love.graphics.draw(playerim, player.xPos-12, player.yPos-12)-- desenha o player em sua posição
+        love.graphics.draw(candy,580,45) -- desenha o doce em sua posição
         for i = 1, #enemies do
---            love.graphics.setColor(enemies[i].color[1], enemies[i].color[2], enemies[i].color[3])
---            love.graphics.circle("fill", enemies[i].xPos, enemies[i].yPos, enemies[i].width / 2)
-              love.graphics.draw(enemies[i].color,enemies[i].xPos-12,enemies[i].yPos-12)
+              love.graphics.draw(enemies[i].color,enemies[i].xPos-12,enemies[i].yPos-12) --desenha os inimigos todos saindo da mesma posição
         end
-    elseif actGameState==gameState.GAMEOVER then
-        love.graphics.draw(gameover,0,0)
-        musicplaying:stop()
-        musicgameover:play()
-        musicgameover:setLooping(true)
-    elseif actGameState==gameState.VICTORY then
-        musicplaying:stop()
-        musicvictory:play()
-        musicvictory:setLooping(true)
-        love.graphics.draw(victory,0,0)
+    elseif actGameState==gameState.GAMEOVER then --desenha a tela de fim de jogo
+        love.graphics.draw(gameover,0,0) -- nas coordenadas do canto da tela
+        musicplaying:stop() -- musica de jogo para
+        musicgameover:play() -- musica de fim de jogo toca
+        musicgameover:setLooping(true) -- musica de fim de jogo entra em loop 
+    elseif actGameState==gameState.VICTORY then -- desenha a tela de vitória
+        musicplaying:stop() -- musica de jogo para
+        musicvictory:play() --musica de vitória toca
+        musicvictory:setLooping(true) -- música de vitória entra em loop
+        love.graphics.draw(victory,0,0) -- desenha a tela de vitória no canto da tela 
     end
-
 end
 
 function love.update(dt)
-    if actGameState==gameState.MENU then
+    if actGameState==gameState.MENU then --o jogo ja começa com a tela de menu
 
-    elseif isEntitiesColliding(candyi,player) then
-        actGameState=gameState.VICTORY
-        player.velocity=0
+    elseif isEntitiesColliding(candyi,player) then --em caso de colisão do player com o objetivo
+        actGameState=gameState.VICTORY -- a tela muda para a tela de vitória
+        player.velocity=0 -- o player fica parado
         for i=1,#enemies do
-            enemies[i].velocity=0
+            enemies[i].velocity=0 -- e o inimigo também 
         end
-    else
-        moveEntity(player, dt)
+    else                     -- em caso contrário a ambos
+        moveEntity(player, dt) -- o player se move
         for i = 1, #enemies do
-            moveEntity(enemies[i], dt)
-            if isEntitiesColliding(player,enemies[i]) then
-                actGameState=gameState.GAMEOVER
-                player.xPos = 50
+            moveEntity(enemies[i], dt) -- os inimigos se movem
+            if isEntitiesColliding(player,enemies[i]) then --checa a colisão de player com inimigo
+                actGameState=gameState.GAMEOVER -- se for verdade, a tela de fim de jogo é mostrada
+                player.xPos = 50 -- a posição do player reseta
                 player.yPos = 50
                 for i=1,#enemies do
-                    enemies[i].xPos=448
+                    enemies[i].xPos=448 --a posição dos inimigos reseta
                     enemies[i].yPos=160
                 end
             end
@@ -109,7 +104,7 @@ end
 
 
 
-function loadEnemies(enemyNumbers, offsetX, offsetY)
+function loadEnemies(enemyNumbers, offsetX, offsetY) -- função para carregar os inimigos em quantidade e posição
     local enemy = {}
     for i = 1, enemyNumbers do
         enemy[i] = generateEnemy(offsetX + 448, 160 + offsetY)
@@ -117,12 +112,12 @@ function loadEnemies(enemyNumbers, offsetX, offsetY)
     return enemy
 end
 
-function checkCollision(entity, wall)
+function checkCollision(entity, wall)  -- checa a colisão das paredes
     local function isEntitysRightColliding(wall)
-        return (entity.xPos + (entity.width) / 2 >= wall.xPos) --REMOVER DIVISÃO POR DOIS SE FOR IMAGEM
+        return (entity.xPos + (entity.width) / 2 >= wall.xPos)
     end
     local function isEntitysLeftColliding(wall)
-        return (entity.xPos - (entity.width) / 2 <= wall.xPos + wall.width) --REMOVER SUBTRAÇÃO SE FOR IMAGEM
+        return (entity.xPos - (entity.width) / 2 <= wall.xPos + wall.width)
     end
     local function isEntitysDownColliding(wall)
         return (entity.yPos + (entity.height) / 2 >= wall.yPos)
@@ -138,14 +133,15 @@ function checkCollision(entity, wall)
         return ((entity.xPos + (entity.height) / 2 >= wall.xPos) and
             ((entity.xPos - (entity.height) / 2) <= wall.xPos + wall.width))
     end
-    --print(tostring(isEntitysRightColliding(wall)) .. " " .. tostring(isEntitysLeftColliding(wall)))
     return ((isEntitysRightColliding(wall) and isEntitysLeftColliding(wall) and isEntityInVerticalBounds(wall)) or
         (isEntitysDownColliding(wall) and isEntitysUpColliding(wall) and isEntityInHorizontalBounds(wall)))
 end
+--[[
+    comentário da função de colisão aqui
+--]]
 
 
-
-function toggleGameState()
+function toggleGameState() -- muda o estado do jogo de playing para menu ou de menu para playing
     if isGamePaused(actGameState) then
         actGameState = gameState.PLAYING
     else
@@ -153,20 +149,20 @@ function toggleGameState()
     end
 end
 function love.mousepressed(x, y, button, istouch)
-    action = getMouseAction(button)
+    action = getMouseAction(button) -- se o usuario apertar no botao de play
     if action ~= false then
-        toggleGameState()
+        toggleGameState() -- entao o jogo muda de menu para playing
     end
-    if action == "quit" then
-        love.event.quit()
+    if action == "quit" then --se ele apertar no botao de quit
+        love.event.quit() --entao o jogo encerra
     end
 end
 function love.keypressed(key, unicode)
-    if (key == "escape" and actGameState~=gameState.VICTORY) then
-        toggleGameState()
+    if (key == "escape" and actGameState~=gameState.VICTORY) then -- se a tecla esc for pressionada em todas as telas exceto a de vitória
+        toggleGameState() -- então a tela de jogo muda
     end
-    if key=='escape' and actGameState==gameState.VICTORY then
-        love.event.quit('restart')
+    if key=='escape' and actGameState==gameState.VICTORY then -- se a tecla esc for pressionada durante a tela de vitória 
+        love.event.quit('restart') -- então o jogo reinicia
     end
     if (key == "w" or key == "up") then
         if player.direction ~= directions.UP then
@@ -178,7 +174,7 @@ function love.keypressed(key, unicode)
         if player.direction ~= directions.LEFT then
             changePreviosDirection(player)
             player.direction = directions.LEFT
-        end
+        end                                                  -- teclas de direcionamento do player
     end
     if (key == "d" or key == "right") then
         if player.direction ~= directions.RIGHT then
@@ -194,7 +190,7 @@ function love.keypressed(key, unicode)
     end
 end
 
-function checkEntityCollision(entity)
+function checkEntityCollision(entity) -- checa a colisão entre entidades e paredes
     for i = 1, #collidableTile do
         temp = checkCollision(entity, collidableTile[i])
         if (temp) then
@@ -204,12 +200,12 @@ function checkEntityCollision(entity)
     return false
 end
 
-function isDirectionOposite(directionA, directionB)
+function isDirectionOposite(directionA, directionB)   
     return (directionA + directionB == 3 or directionA + directionB == 7)
 end
 
-function moveEntityPrevious(entity, dt)
-    if (not isDirectionOposite(entity.direction, entity.previousDirection)) then
+function moveEntityPrevious(entity, dt)              -- faz com que a entidade se mova para a direção que seguia anteriormente em caso de
+    if (not isDirectionOposite(entity.direction, entity.previousDirection)) then  -- colisão com alguma parede
         if (entity.previousDirection == directions.UP) then
             entity.yPos = entity.yPos - (dt * entity.velocity)
             if checkEntityCollision(entity) then
@@ -241,7 +237,7 @@ function moveEntityPrevious(entity, dt)
 end
 
 
-function moveEntity(entity, dt)
+function moveEntity(entity, dt)             
     if (entity.direction == directions.UP) then
         entity.yPos = entity.yPos - (dt * entity.velocity)
         if checkEntityCollision(entity) then
@@ -277,7 +273,7 @@ function moveEntity(entity, dt)
         end
     end
 end
-function isEntitiesColliding(entity1,entity2)
+function isEntitiesColliding(entity1,entity2)   -- checa a colisão entre entidades (playerXenemy, playerXcandy)
     local x1,y1 = entity1.xPos,entity1.yPos
     local x2,y2 = entity2.xPos,entity2.yPos
     local raid1,raid2 = ((entity1.width)/2),((entity2.width)/2)
