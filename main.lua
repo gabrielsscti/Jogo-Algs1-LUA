@@ -58,6 +58,8 @@ function love.draw()
         end
     elseif actGameState==gameState.GAMEOVER then
         love.graphics.draw(gameover,0,0)
+    elseif actGameState==gameState.VICTORY then
+        love.graphics.draw(victory,0,0)
     end
 
 end
@@ -76,7 +78,7 @@ function love.update(dt)
             end
         end
         if isEntitiesColliding(candyi,player) then
-            actGameState=gameState.MENU
+            actGameState=gameState.VICTORY
         end
     end
 
