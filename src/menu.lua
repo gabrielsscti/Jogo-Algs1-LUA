@@ -1,4 +1,3 @@
-
 function menuloadbuttons()
 	love.graphics.reset()
 	rato = love.graphics.newImage('assets/rato.png')
@@ -31,23 +30,6 @@ function drawup()
 		love.graphics.draw(play.pressed,320,160)
 	elseif x>320 and x<=largura+320 and y>280 and y<altura+280 then 
 		love.graphics.draw(quit.pressed,320,280)
-	end
-end
-
-function animationDDX()
-	if timer>=0.07 then
-		if growing==true then
-			num = num+1
-		else
-			num=num-1
-		end
-		if num==5 then
-			growing=false
-		elseif num==1 then
-			growing=true
-		end
-		actualAnimation = ddx[num]
-		timer = 0
 	end
 end
 function getMouseAction(button)
